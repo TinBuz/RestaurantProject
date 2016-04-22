@@ -3,6 +3,7 @@ public class Table
 {
     private String tableNumber;
     private String numSeats;
+    private boolean occupied;
     
     /**
      * Constructor for objects of class Table
@@ -11,6 +12,7 @@ public class Table
     {
         tableNumber = tNum;
         numSeats = sNum;
+        occupied = false;
     }
     
     public void setNumber(String tNum)
@@ -22,6 +24,11 @@ public class Table
     {
         numSeats = sNum;
     }
+
+    public void setOccupied(boolean bIn)
+    {
+        occupied = bIn;
+    }
     
     public String getNumber()
     {
@@ -31,6 +38,11 @@ public class Table
     public String getSeats()
     {
         return numSeats;
+    }
+    
+    public boolean getOccupied()
+    {
+        return occupied;
     }
     
     public String toString()
