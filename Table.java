@@ -4,6 +4,7 @@ public class Table
     private String tableNumber;
     private String numSeats;
     private boolean occupied;
+    private Customer customer = null;
     
     /**
      * Constructor for objects of class Table
@@ -30,6 +31,11 @@ public class Table
         occupied = bIn;
     }
     
+    public void setCustomer(Customer cIn)
+    {
+        customer = cIn;
+    }
+    
     public String getNumber()
     {
         return tableNumber;
@@ -43,6 +49,11 @@ public class Table
     public boolean getOccupied()
     {
         return occupied;
+    }
+    
+    public Customer getCustomer()
+    {
+        return customer;
     }
     
     public String toString()
