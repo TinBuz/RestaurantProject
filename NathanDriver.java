@@ -1,22 +1,23 @@
 import java.io.*;
 
 /*
- * Purpose: Data Structure and Algorithms Lab 11 problem 3
+ * Purpose: Data Structure and Algorithms group Project
  * Status: Complete and thoroughly tested
- * Last update: 04/20/16
- * Submitted:  04/21/16
+ * Last update: 04/26/16
+ * Submitted:  04/28/16
  * Comment: test suite and sample run attached
- * 
- * I edited BinarySearchTree to include the toStringinorder
- * I did not see anyway to cast a BinarySearchTree into
- * A MyBinarySearchTreePlus
- * @author: Nathan Aydelotte
- * @version: 2016.04.20
+ * @author: Nathan Aydelotte & Tin Buzancic
+ * @version: 2016.04.26
  */
 public class Driver
 {
     private static BufferedReader buff; //= new BufferedReader(new InputStreamReader(System.in));
 
+    /**
+     * The main function of the driver
+     * Calls setTables to set the number of tables for the no kids section and the kids section
+     * then calls the Welcome menu
+     */
     public static int main() throws IOException
     {
         buff = new BufferedReader(new FileReader("input.txt"));
@@ -31,6 +32,12 @@ public class Driver
         return 0;
     }
 
+    /**
+     * setTables- sets the tables for the kids and no kids section
+     * 
+     * @param ListArrayBasedPlus noKids - the no kids section
+     * @param ListArrayBasedPlus kids - the kids section
+     */
     public static void setTables(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
     {
         System.out.println("Welcome! How many tables are there in No Kids Section?");
@@ -81,6 +88,13 @@ public class Driver
         }
     }
 
+    /**
+     * The welcome menu for the driver, displays information about the options
+     * 
+     * @param ListArrayBasedPlus noKids - the no kids section
+     * @param ListArrayBasedPlus kids - the kids section
+     * @param CDLSReferenceBased customers - the line of customers
+     */
     public static int welcome(ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
     {
         System.out.println("Welcome, select one:");
@@ -100,6 +114,12 @@ public class Driver
         return iChoice;
     }
 
+    /**
+     * checkNumber - checks if the number given is already in use
+     * 
+     * @param ListArrayBasedPlus lab - either of the two table sections, kids or no Kids
+     * @param String value - the table number you are trying to insert
+     */
     public static boolean checkNumber(ListArrayBasedPlus lab, String value)
     {
         boolean free = true;
@@ -120,6 +140,14 @@ public class Driver
         return free;
     }
 
+    /**
+     * switchBoard - Uses a switch statement to do what you ask to do
+     * 
+     * @param int i - the selection of menu option you wish to perform
+     * @param ListArrayBasedPlus noKids - the no kids section of tables
+     * @param ListArrayBasedPlus kids - the kids section of tables
+     * @param CDLSRefereneBased customers - the line of customers
+     */
     public static void switchBoard(int i, ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
     {
         if(i < 1 || i > 9)
@@ -168,6 +196,15 @@ public class Driver
         customers.add(customers.size(), newCust);
     }
 
+    /**
+     * Steps through the list of customers to find a suitable table
+     * if the table size is greater than the party size,
+     * the table is assigned to the customer and set to filled
+     * 
+     * @param ListArrayBasedPlus noKids - the no kids section of tables
+     * @param ListArrayBasedPlus kids - the kids section of tables
+     * @param CDLSRefereneBased customers - the line of customers
+     */
     public static void seated(ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers)
     {
         boolean seated = false;
@@ -225,6 +262,13 @@ public class Driver
         System.out.println("Customer " + current.toString() + " was seated at a table " + table.getNumber());
     }
 
+    /**
+     * Adds a table to a section, kids or no kids
+     * The table has a number and an amount of seats
+     * 
+     * @param ListArrayBasedPlus noKids - the no kids section of tables
+     * @param ListArrayBasedPlus kids - the kids section of tables
+     */
     public static void addTable(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
     {
         System.out.println("Kids Section? (K/N)");
@@ -253,6 +297,14 @@ public class Driver
         }
     }
     
+    /**
+     * Steps through the list of tables and checks if they are free
+     * if they are free prints them out to the screen
+     * done for both sections
+     * 
+     * @param ListArrayBasedPlus noKids - the no kids section of tables
+     * @param ListArrayBasedPlus kids - the kids section of tables
+     */
     public static void displayFreeTables(ListArrayBasedPlus noKids, ListArrayBasedPlus kids)
     {
         System.out.println("Kids Section: ");
@@ -275,6 +327,15 @@ public class Driver
         }
     }
     
+    /**
+     * Steps through the list of tables
+     * Checks if they are taken
+     * If they are prints out customer and table information
+     * does this for both sections
+     * 
+     * @param ListArrayBasedPlus noKids - the no kids section of tables
+     * @param ListArrayBasedPlus kids - the kids section of tables
+     */
     public static void servedInfo(ListArrayBasedPlus noKids, ListArrayBasedPlus kids)
     {
         System.out.println("The people being served in the Kids section are: ");
