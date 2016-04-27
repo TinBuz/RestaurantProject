@@ -1,14 +1,19 @@
-import java.io.*;
+package mainPackage;
 
-/*
- * Purpose: Data Structure and Algorithms group Project
+/**
+ * Purpose: DSA Final
  * Status: Complete and thoroughly tested
  * Last update: 04/26/16
  * Submitted:  04/28/16
- * Comment: test suite and sample run attached
+ * Comment: Driver class of the Restaurant Application
  * @author: Nathan Aydelotte & Tin Buzancic
  * @version: 2016.04.26
  */
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Driver
 {
     private static BufferedReader buff; //= new BufferedReader(new InputStreamReader(System.in));
@@ -150,46 +155,50 @@ public class Driver
      */
     public static void switchBoard(int i, ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
     {
-        if(i < 1 || i > 9)
-        {
-            System.out.println("Error Selection is not in the list.");
-            welcome(noKids, kids, customers);
-        }
         switch(i)
         {
+        	case 9:
+        		System.out.println("Restaurant Closed. Thank you!");
+            	System.exit(0);
             case 1:
-            walkIn(customers);
-            break;
+            	walkIn(customers);
+            	break;
             case 2:
-            seated(noKids, kids, customers);
-            break;
+            	seated(noKids, kids, customers);
+            	break;
             case 3:
-            break;
+            	break;
             case 4:
-            addTable(noKids, kids);
-            break;
+            	addTable(noKids, kids);
+            	break;
             case 5:
-            break;
+            	break;
             case 6:
-            displayFreeTables(noKids, kids);
-            break;
+            	displayFreeTables(noKids, kids);
+            	break;
             case 7:
-            break;
+            	break;
             case 8:
-            servedInfo(noKids, kids);
-            break;
-            case 9:
-            System.out.println("Goodbye!");
-            System.exit(0);
+            	servedInfo(noKids, kids);
+            	break;
+            default:
+            	System.out.println("Invalid Entry, try again.\n");
+            	break;
         }
         welcome(noKids, kids, customers);
     }
 
     public static void walkIn(CDLSReferenceBased customers) throws IOException
     {
+    	System.out.print("Enter Customer Party Name: ");
         String name = buff.readLine();
+        System.out.println(name);
+        System.out.print("Enter Party Size: ");
         String size = buff.readLine();
+        System.out.println(size);
+        System.out.print("Does the party have kids?(Y/N): ");
         String kids = buff.readLine();
+        System.out.print(kids);
         char cKids = kids.charAt(0);
         Customer newCust = new Customer(name, size);
         newCust.setKids(cKids);
@@ -360,4 +369,3 @@ public class Driver
         }
     }
 }
-
