@@ -1,5 +1,3 @@
-package mainPackage;
-
 /**
  * Purpose: DSA Final
  * Status: Complete and thoroughly tested
@@ -155,6 +153,11 @@ public class Driver
      */
     public static void switchBoard(int i, ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
     {
+//        if(i < 1 || i > 9)
+//        {
+//            System.out.println("Error Selection is not in the list.");
+//            welcome(noKids, kids, customers);
+//        }
         switch(i)
         {
         	case 9:
