@@ -54,11 +54,12 @@ public class Driver
             if(i > 0)
             {
                 boolean free = checkNumber(noKids, tableNum);
-                if(!free)
+                while(!free)
                 {
                     System.out.println("Table Number already in use!");
                     System.out.println("Please Select a new number");
                     tableNum = buff.readLine();
+                    free = checkNumber(noKids, tableNum);
                 }
             }
             System.out.println("How many Seats?");
@@ -77,11 +78,12 @@ public class Driver
             if(i > 0)
             {
                 boolean free = checkNumber(kids, tableNum);
-                if(!free)
+                while(!free)
                 {
                     System.out.println("Table Number already in use!");
                     System.out.println("Please Select a new number");
                     tableNum = buff.readLine();
+                    free = checkNumber(kids, tableNum);
                 }
             }
             System.out.println("How many Seats?");
@@ -285,11 +287,18 @@ public class Driver
     {
         System.out.println("Kids Section? (K/N)");
         String section = buff.readLine();
+        boolean free = false;
         if(section.charAt(0) == 'K')
         {
             System.out.println("What number will be applied to the table?");
             String num = buff.readLine();
-            checkNumber(kids, num);
+            free = checkNumber(kids, num);
+            while(!free)
+            {
+                System.out.println("Number already in use. Please Select a new number: ");
+                num = buff.readLine();
+                free = checkNumber(kids, num);
+            }
             System.out.println("How many seats will there be?");
             String seats = buff.readLine();
             Table table = new Table(num, seats);
@@ -300,7 +309,13 @@ public class Driver
         {
             System.out.println("What number will be applied to the table?");
             String num = buff.readLine();
-            checkNumber(noKids, num);
+            free = checkNumber(noKids, num);
+            while(!free)
+            {
+                System.out.println("Number already in use. Please Select a new number: ");
+                num = buff.readLine();
+                free = checkNumber(noKids, num);
+            }
             System.out.println("How many seats will there be?");
             String seats = buff.readLine();
             Table table = new Table(num, seats);
