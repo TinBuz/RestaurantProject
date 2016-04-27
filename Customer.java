@@ -1,3 +1,5 @@
+package mainPackage;
+
 /**
  * Purpose: DSA Final
  * Status: Complete and thoroughly tested
@@ -103,13 +105,13 @@ public class Customer
         String kids = null;
         if(hasKids)
         {
-            kids = " has kids, ";
+            kids = "kid friendly";
         }
         else
         {
-            kids = " does not have kids, ";
+            kids = "no kids";
         }
-        return name + " party " + kids + "and has " + size + " people";
+        return name + "'s party of " + getSize() + " waiting to be seated in the  " + kids + " section";
     }
 }
 
