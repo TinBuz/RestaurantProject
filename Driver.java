@@ -46,13 +46,13 @@ public class Driver
      */
     public static void setTables(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
     {
-        System.out.print("Welcome! How many tables are there in No Kids Section? ");
+        System.out.print("Welcome! How many tables are there in No Kids Section?: ");
         String sNumTables = buff.readLine().trim();
         System.out.println(sNumTables);
         int numTables = Integer.parseInt(sNumTables);
         for(int i = 0; i < numTables; i++)
         {
-            System.out.print("What is the Table Number? ");
+            System.out.print("What is the Table Number?: ");
             String tableNum = buff.readLine().trim();
             System.out.println(tableNum);
             if(i > 0)
@@ -61,36 +61,41 @@ public class Driver
                 while(!free)
                 {
                     System.out.println("Table Number already in use!");
-                    System.out.println("Please Select a new number");
-                    tableNum = buff.readLine();
+                    System.out.print("Please Select a new number\n");
+                    tableNum = buff.readLine().trim();
+                    System.out.println(tableNum);
                     free = checkNumber(noKids, tableNum);
                 }
             }
             System.out.println("How many Seats?");
-            String numSeats = buff.readLine();
+            String numSeats = buff.readLine().trim();
             Table table = new Table(tableNum, numSeats);
             noKids.add(i, table);
         }
-        System.out.println("How many tables are there in Kids Section?");
+        System.out.print("How many tables are there in Kids Section?: ");
         sNumTables = buff.readLine().trim();
+        System.out.println(sNumTables);
         numTables = Integer.parseInt(sNumTables);
         for(int i = 0; i < numTables; i++)
         {
-            System.out.println("What is the Table Number?");
+            System.out.print("What is the Table Number?: ");
             String tableNum = buff.readLine().trim();
+            System.out.println(tableNum);
             if(i > 0)
             {
                 boolean free = checkNumber(kids, tableNum);
                 while(!free)
                 {
                     System.out.println("Table Number already in use!");
-                    System.out.println("Please Select a new number");
-                    tableNum = buff.readLine();
+                    System.out.print("Please Select a new number: ");
+                    tableNum = buff.readLine().trim();
+                    System.out.println(tableNum);
                     free = checkNumber(kids, tableNum);
                 }
             }
-            System.out.println("How many Seats?");
-            String numSeats = buff.readLine();
+            System.out.print("How many Seats?: ");
+            String numSeats = buff.readLine().trim();
+            System.out.println(numSeats);
             Table table = new Table(tableNum, numSeats);
             kids.add(i, table);
         }
@@ -105,16 +110,16 @@ public class Driver
      */
     public static void welcome(ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
     {
-        System.out.println("Welcome to the Restaurant Menu\n"
-        + "1. Customer party enters the restaurant\n"
-        + "2. Customer party is seated and served\n"
-        + "3. Customer party leaves the restaurant\n"
-        + "4. Add a table\n"
-        + "5. Remove a table\n"
-        + "6. Display available tables\n"
-        + "7. Display info about waiting customer parties\n"
-        + "8. Display info about customer parties being served\n"
-        + "9. Exit\n"
+        System.out.print("Welcome to the Restaurant Menu\n"
+        + "\t1. Customer party enters the restaurant\n"
+        + "\t2. Customer party is seated and served\n"
+        + "\t3. Customer party leaves the restaurant\n"
+        + "\t4. Add a table\n"
+        + "\t5. Remove a table\n"
+        + "\t6. Display available tables\n"
+        + "\t7. Display info about waiting customer parties\n"
+        + "\t8. Display info about customer parties being served\n"
+        + "\t9. Exit\n"
         + "Please Select a menu option: ");
         String response = buff.readLine().trim();
         System.out.println(response);
@@ -136,11 +141,13 @@ public class Driver
             	addTable(noKids, kids);
             	break;
             case "5":
+            	removeTable(noKids, kids);
             	break;
             case "6":
             	displayFreeTables(noKids, kids);
             	break;
             case "7":
+            	waitingCustomers(customers);
             	break;
             case "8":
             	servedInfo(noKids, kids);
@@ -153,7 +160,6 @@ public class Driver
 
     /**
      * checkNumber - checks if the number given is already in use
-     * 
      * @param ListArrayBasedPlus list - either of the two table sections, kids or no Kids
      * @param String value - the table number you are trying to insert
      */
@@ -177,6 +183,11 @@ public class Driver
         return free;
     }
 
+    /**
+     * walkIn - Customer first enters the restaurant to be seated
+     * @param customers - List of customers waiting to be seated
+     * @throws IOException
+     */
     public static void walkIn(CDLSReferenceBased customers) throws IOException
     {
     	System.out.print("Enter Customer Party Name: ");
@@ -266,17 +277,24 @@ public class Driver
         }
     }
     
-    public static Customer leaves(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
+    /**
+     * leaves - removes a customer from a table and frees the table up for future use.
+     * @param noKids - Section of restaurant without kids
+     * @param kids - Section of restaurant with kids
+     * @throws IOException
+     */
+    public static void leaves(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
     {
     	System.out.print("Please enter the name of the Customer Party: ");
     	String custName = buff.readLine().trim();
     	System.out.println(custName);
     	
+    	int i = 0;
     	boolean found = false;
     	Customer customer = null;
     	Table table = null;
     	
-		for(int i = 0; i < noKids.size(); i++)
+		while(!found && i < noKids.size())
 		{
 			table = (Table) noKids.get(i);
 			if(table.getCustomer().getName().equals(custName))
@@ -286,10 +304,13 @@ public class Driver
 				table.setOccupied(false);
 				found = true;
 			}
+			i++;
 		}
+		
 		if(!found)
 		{
-			for(int i = 0; i < kids.size(); i++)
+			i = 0;
+			while(!found && i < kids.size())
 			{
 				table = (Table) kids.get(i);
 				if(table.getCustomer().getName().equals(custName))
@@ -297,10 +318,21 @@ public class Driver
 					customer = table.getCustomer();
 					table.setCustomer(null);
 					table.setOccupied(false);
+					found = true;
 				}
+			i++;
 			}
 		}
-		return customer;
+
+		if(found)
+		{
+			System.out.println(custName + " has left the Restaurant\n"
+					+ "Table " + table.getNumber() + " has been freed");
+		}
+		else
+		{
+			System.out.println("Customer does not exist or waiting to be seated.");
+		}
     }
 
     /**
@@ -312,43 +344,125 @@ public class Driver
      */
     public static void addTable(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
     {
-        System.out.println("Kids Section? (K/N)");
+        System.out.print("Kids Section?(K/N): ");
         String section = buff.readLine();
+        System.out.println(section);
         boolean free = false;
         if(section.charAt(0) == 'K')
         {
-            System.out.println("What number will be applied to the table?");
-            String num = buff.readLine();
+            System.out.print("What number will be applied to the table?: ");
+            String num = buff.readLine().trim();
+            System.out.println(num);
             free = checkNumber(kids, num);
             while(!free)
             {
-                System.out.println("Number already in use. Please Select a new number: ");
-                num = buff.readLine();
+                System.out.print("Number already in use. Please Select a new number: ");
+                num = buff.readLine().trim();
+                System.out.println(num);
                 free = checkNumber(kids, num);
             }
-            System.out.println("How many seats will there be?");
-            String seats = buff.readLine();
+            System.out.print("How many seats will there be?: ");
+            String seats = buff.readLine().trim();
+            System.out.println(seats);
             Table table = new Table(num, seats);
             kids.add(kids.size(), table);
             System.out.println("Table " + num + " added into " + section + " section");
         }
         else
         {
-            System.out.println("What number will be applied to the table?");
-            String num = buff.readLine();
+            System.out.print("What number will be applied to the table?: ");
+            String num = buff.readLine().trim();
+            System.out.println(num);
             free = checkNumber(noKids, num);
             while(!free)
             {
-                System.out.println("Number already in use. Please Select a new number: ");
-                num = buff.readLine();
+                System.out.print("Number already in use. Please Select a new number: ");
+                num = buff.readLine().trim();
+                System.out.println(num);
                 free = checkNumber(noKids, num);
             }
-            System.out.println("How many seats will there be?");
-            String seats = buff.readLine();
+            System.out.print("How many seats will there be?: ");
+            String seats = buff.readLine().trim();
+            System.out.println(seats);
             Table table = new Table(num, seats);
             noKids.add(noKids.size(), table);
             System.out.println("Table " + num + " added into " + section + " section");
         }
+    }
+    
+    /**
+     * removeTable - removes a table by section table number input from the user
+     * @param noKids - section of restaurant with no kids
+     * @param kids - section of restaurant with kids
+     * @throws IOException
+     */
+    public static void removeTable(ListArrayBased noKids, ListArrayBased kids) throws IOException
+    {
+    	System.out.print("You are now removing a table\n"
+    			+ "From which section would you like to remove this table?(K/N): ");
+    	String response = buff.readLine().trim();
+    	System.out.println(response);
+    	System.out.print("Enter table number: ");
+    	String tableNumber = buff.readLine().trim();
+    	System.out.println(tableNumber);
+    	
+    	Table table = null;
+    	if(response.equalsIgnoreCase("K"))
+    	{
+    		int i = 0;
+    		boolean flag = false;
+    		while(!flag && i < kids.size())
+    		{
+    			table = (Table) kids.get(i);
+    			if(table.getNumber().equals(tableNumber))
+    			{
+    				if(!table.getOccupied())
+    				{
+    					System.out.println("Table " + table.getNumber() + " with " + table.getSeats() + " has been removed");
+    					kids.remove(i);
+    					flag = true;
+    				}
+    				else
+    				{
+    					System.out.println("Can't remove a table that is currently in use!");
+    					flag = true;
+    				}		
+    			}
+    		i++;
+    		}
+    		if(!flag)
+    		{
+    			System.out.println("Table was not found.");
+    		}
+    	}
+    	if(response.equalsIgnoreCase("N"))
+    	{
+    		int i = 0;
+    		boolean flag = false;
+    		while(!flag && i < noKids.size())
+    		{
+    			table = (Table) noKids.get(i);
+    			if(table.getNumber().equals(tableNumber))
+    			{
+    				if(!table.getOccupied())
+    				{
+    					System.out.println("Table " + table.getNumber() + " with " + table.getSeats() + " has been removed");
+    					noKids.remove(i);
+    					flag = true;
+    				}
+    				else
+    				{
+    					System.out.println("Can't remove a table that is currently in use!");
+    					flag = true;
+    				}
+    			}
+    		i++;
+    		}
+    		if(!flag)
+    		{
+    			System.out.println("Table was not found.");
+    		}
+    	}
     }
     
     /**
@@ -379,6 +493,21 @@ public class Driver
                 System.out.println(table.toString());
             }
         }
+    }
+    
+    /**
+     * waitingCustomers - Displays the info about the waiting customers
+     * @param customers - List of Customers waiting to be seated
+     */
+    public static void waitingCustomers(CDLSReferenceBased list)
+    {
+    	Customer customer = null;
+    	System.out.println("The following " + list.size() + " customer parties are waiting for the tables: ");
+    	for(int i = 0; i < list.size(); i++)
+    	{
+    		customer = (Customer) list.get(i);
+    		System.out.println(customer.toString());
+    	}
     }
     
     /**
