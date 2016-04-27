@@ -1,66 +1,115 @@
+/**
+ * Purpose: DSA Final
+ * Status: Complete and thoroughly tested
+ * Last update: 4/26/2016
+ * Submitted:  4/28/2016
+ * Comment: Interface for List ADT
+ * @author: Tin Buzancic
+ * @version: 2016.28.04
+ */
+
 public class Customer
 {
     private String name;
     private String size;
-    private boolean kids;
+    private boolean hasKids;
     
     /**
      * Constructor for objects of class Customer
+     * @param name
+     * String Name of the Customer
+     * @param size
+     * String Size of the Customer
      */
-    public Customer(String nameIn, String sizeIn)
+    public Customer(String name, String size)
     {
-        name = nameIn;
-        size = sizeIn;
+        this.name = name;
+        this.size = size;
     }
     
-    public void setKids(char kidsIn)
+    /**
+     * Determinant whether customer has a child in the party
+     * @param kids
+     * char 'Y' for Yes, 'N' for No
+     */
+    public void setKids(char kids)
     {
-        switch(kidsIn)
+        switch(kids)
         {
             case 'Y':
-            kids = true;
+            this.hasKids = true;
             break;
             case 'N':
-            kids = false;
+            this.hasKids = false;
+            break;
         }
     }
     
-    public void setName(String nameIn)
+    /**
+     * Mutator for Customer name
+     * @param name
+     * String Name
+     */
+    public void setName(String name)
     {
-        name = nameIn;
+        this.name = name;
     }
     
-    public void setSize(String sizeIn)
+    /**
+     * Mutator for Customer size
+     * @param size
+     * String Size
+     */
+    public void setSize(String size)
     {
-        size = sizeIn;
+        this.size = size;
     }
     
+    /**
+     * Accessor for Customer Name
+     * @return
+     * String Name
+     */
     public String getName()
     {
-        return name;
+        return this.name;
     }
     
+    /**
+     * Accessor for Customer size
+     * @return
+     * String Size
+     */
     public String getSize()
     {
-        return size;
+        return this.size;
     }
     
+    /**
+     * Accessor for Customer kids
+     * @return
+     * boolean True if they have kids, False if they do not
+     */
     public boolean getKids()
     {
-        return kids;
+        return this.hasKids;
     }
     
+    /**
+     * toString method for Customer class
+     */
     public String toString()
     {
-        String hasKids = null;
-        if(kids)
+        String kids = null;
+        if(hasKids)
         {
-            hasKids = " has kids, ";
+            kids = " has kids, ";
         }
         else
         {
-            hasKids = " does not have kids, ";
+            kids = " does not have kids, ";
         }
-        return name + " party " + hasKids + "and has " + size + " people";
+        return name + " party " + kids + "and has " + size + " people";
     }
 }
+
