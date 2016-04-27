@@ -206,13 +206,12 @@ public class Driver
     public static void seated(ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers)
     {
         boolean seated = false;
-        boolean full = false;
         int index = 0;
         Customer current = null;
         Table table = null;
         int tableSeats = 0;
         int partySize = 0;
-        while(!seated && !full)
+        while(!seated && index < customers.size())
         {
             current = (Customer) customers.get(index);
             if(current.getKids())
@@ -257,7 +256,14 @@ public class Driver
             }
             index++;
         }
-        System.out.println("Customer " + current.toString() + " was seated at a table " + table.getNumber());
+        if(index == customers.size())
+        {
+            System.out.println("The restraunt is currently full. Please wait till a customer leaves!");
+        }
+        else
+        {
+            System.out.println("Customer " + current.toString() + " was seated at a table " + table.getNumber());
+        }
     }
     
     public static Customer leaves(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
@@ -281,7 +287,7 @@ public class Driver
 				found = true;
 			}
 		}
-		if(found == false)
+		if(!found)
 		{
 			for(int i = 0; i < kids.size(); i++)
 			{
