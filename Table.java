@@ -1,5 +1,3 @@
-package mainPackage;
-
 /**
  * Purpose: DSA Final
  * Status: Complete and thoroughly tested
