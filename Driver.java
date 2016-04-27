@@ -130,7 +130,7 @@ public class Driver
             	seated(noKids, kids, customers);
             	break;
             case "3":
-            	//leaves(customers);
+            	leaves(noKids, kids);
             	break;
             case "4":
             	addTable(noKids, kids);
@@ -265,7 +265,36 @@ public class Driver
     	System.out.print("Please enter the name of the Customer Party: ");
     	String custName = buff.readLine().trim();
     	System.out.println(custName);
-		return null;
+    	
+    	boolean found = false;
+    	Customer customer = null;
+    	Table table = null;
+    	
+		for(int i = 0; i < noKids.size(); i++)
+		{
+			table = (Table) noKids.get(i);
+			if(table.getCustomer().getName().equals(custName))
+			{
+				customer = table.getCustomer();
+				table.setCustomer(null);
+				table.setOccupied(false);
+				found = true;
+			}
+		}
+		if(found == false)
+		{
+			for(int i = 0; i < kids.size(); i++)
+			{
+				table = (Table) kids.get(i);
+				if(table.getCustomer().getName().equals(custName))
+				{
+					customer = table.getCustomer();
+					table.setCustomer(null);
+					table.setOccupied(false);
+				}
+			}
+		}
+		return customer;
     }
 
     /**
