@@ -11,6 +11,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Driver
 {
@@ -23,17 +24,19 @@ public class Driver
      */
     public static int main() throws IOException
     {
-        buff = new BufferedReader(new FileReader("input.txt"));
-        ListArrayBasedPlus noKids = new ListArrayBasedPlus();
-        ListArrayBasedPlus kids = new ListArrayBasedPlus();
-        CDLSReferenceBased customers = new CDLSReferenceBased();
-        for(int i = 0; i < 9;)
+    	//Instance Variables
+        buff = new BufferedReader(new BufferedReader(new InputStreamReader(System.in)));
+        ListArrayBasedPlus noKids = new ListArrayBasedPlus();		//No Kids Section
+        ListArrayBasedPlus kids = new ListArrayBasedPlus();			//Kids Section
+        CDLSReferenceBased customers = new CDLSReferenceBased();	//List of Customers
+        
+        //Start Program
+        setTables(noKids, kids);
+        while(true)
         {
-            setTables(noKids, kids);
-            i = welcome(noKids, kids, customers);
+            welcome(noKids, kids, customers);
         }
-        return 0;
-    }
+    }//end main
 
     /**
      * setTables- sets the tables for the kids and no kids section
@@ -43,14 +46,15 @@ public class Driver
      */
     public static void setTables(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
     {
-        System.out.println("Welcome! How many tables are there in No Kids Section?");
-        String sNumTables = buff.readLine();
-        sNumTables.trim();
+        System.out.print("Welcome! How many tables are there in No Kids Section? ");
+        String sNumTables = buff.readLine().trim();
+        System.out.println(sNumTables);
         int numTables = Integer.parseInt(sNumTables);
         for(int i = 0; i < numTables; i++)
         {
-            System.out.println("What is the Table Number?");
-            String tableNum = buff.readLine();
+            System.out.print("What is the Table Number? ");
+            String tableNum = buff.readLine().trim();
+            System.out.println(tableNum);
             if(i > 0)
             {
                 boolean free = checkNumber(noKids, tableNum);
@@ -68,13 +72,12 @@ public class Driver
             noKids.add(i, table);
         }
         System.out.println("How many tables are there in Kids Section?");
-        sNumTables = buff.readLine();
-        sNumTables.trim();
+        sNumTables = buff.readLine().trim();
         numTables = Integer.parseInt(sNumTables);
         for(int i = 0; i < numTables; i++)
         {
             System.out.println("What is the Table Number?");
-            String tableNum = buff.readLine();
+            String tableNum = buff.readLine().trim();
             if(i > 0)
             {
                 boolean free = checkNumber(kids, tableNum);
@@ -91,7 +94,7 @@ public class Driver
             Table table = new Table(tableNum, numSeats);
             kids.add(i, table);
         }
-    }
+    }//end setTables
 
     /**
      * The welcome menu for the driver, displays information about the options
@@ -100,40 +103,69 @@ public class Driver
      * @param ListArrayBasedPlus kids - the kids section
      * @param CDLSReferenceBased customers - the line of customers
      */
-    public static int welcome(ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
+    public static void welcome(ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
     {
-        System.out.println("Welcome, select one:");
-        System.out.println("\n1. Customer party enters the restaurant");
-        System.out.println("2. Customer party is seated and served");
-        System.out.println("3. Customer party leaves the restaurant");
-        System.out.println("4. Add a table");
-        System.out.println("5. Remove a table");
-        System.out.println("6. Display available tables");
-        System.out.println("7. Display info about waiting customer parties");
-        System.out.println("8. Display info about customer parties being served");
-        System.out.println("9. Exit");
-        String sChoice = buff.readLine();
-        sChoice.trim();
-        int iChoice = Integer.parseInt(sChoice);
-        switchBoard(iChoice, noKids, kids, customers);
-        return iChoice;
-    }
+        System.out.println("Welcome to the Restaurant Menu\n"
+        + "1. Customer party enters the restaurant\n"
+        + "2. Customer party is seated and served\n"
+        + "3. Customer party leaves the restaurant\n"
+        + "4. Add a table\n"
+        + "5. Remove a table\n"
+        + "6. Display available tables\n"
+        + "7. Display info about waiting customer parties\n"
+        + "8. Display info about customer parties being served\n"
+        + "9. Exit\n"
+        + "Please Select a menu option: ");
+        String response = buff.readLine().trim();
+        System.out.println(response);
+        switch(response)
+        {
+        	case "9":
+        		System.out.println("Restaurant Closed. Thank you!");
+            	System.exit(0);
+            case "1":
+            	walkIn(customers);
+            	break;
+            case "2":
+            	seated(noKids, kids, customers);
+            	break;
+            case "3":
+            	//leaves(customers);
+            	break;
+            case "4":
+            	addTable(noKids, kids);
+            	break;
+            case "5":
+            	break;
+            case "6":
+            	displayFreeTables(noKids, kids);
+            	break;
+            case "7":
+            	break;
+            case "8":
+            	servedInfo(noKids, kids);
+            	break;
+            default:
+            	System.out.println("Invalid Entry, try again.\n");
+            	break;
+        }
+    }//end Welcome
 
     /**
      * checkNumber - checks if the number given is already in use
      * 
-     * @param ListArrayBasedPlus lab - either of the two table sections, kids or no Kids
+     * @param ListArrayBasedPlus list - either of the two table sections, kids or no Kids
      * @param String value - the table number you are trying to insert
      */
-    public static boolean checkNumber(ListArrayBasedPlus lab, String value)
+    public static boolean checkNumber(ListArrayBasedPlus list, String value)
     {
         boolean free = true;
         boolean found = false;
         while(!found)
         {
-            for(int i = 0; i < lab.size(); i++)
+            for(int i = 0; i < list.size(); i++)
             {
-                Table table = (Table) lab.get(i);
+                Table table = (Table) list.get(i);
                 if(value.equals(table.getNumber()))
                 {
                     found = true;
@@ -143,54 +175,6 @@ public class Driver
             found = true;
         }
         return free;
-    }
-
-    /**
-     * switchBoard - Uses a switch statement to do what you ask to do
-     * 
-     * @param int i - the selection of menu option you wish to perform
-     * @param ListArrayBasedPlus noKids - the no kids section of tables
-     * @param ListArrayBasedPlus kids - the kids section of tables
-     * @param CDLSRefereneBased customers - the line of customers
-     */
-    public static void switchBoard(int i, ListArrayBasedPlus noKids, ListArrayBasedPlus kids, CDLSReferenceBased customers) throws IOException
-    {
-//        if(i < 1 || i > 9)
-//        {
-//            System.out.println("Error Selection is not in the list.");
-//            welcome(noKids, kids, customers);
-//        }
-        switch(i)
-        {
-        	case 9:
-        		System.out.println("Restaurant Closed. Thank you!");
-            	System.exit(0);
-            case 1:
-            	walkIn(customers);
-            	break;
-            case 2:
-            	seated(noKids, kids, customers);
-            	break;
-            case 3:
-            	break;
-            case 4:
-            	addTable(noKids, kids);
-            	break;
-            case 5:
-            	break;
-            case 6:
-            	displayFreeTables(noKids, kids);
-            	break;
-            case 7:
-            	break;
-            case 8:
-            	servedInfo(noKids, kids);
-            	break;
-            default:
-            	System.out.println("Invalid Entry, try again.\n");
-            	break;
-        }
-        welcome(noKids, kids, customers);
     }
 
     public static void walkIn(CDLSReferenceBased customers) throws IOException
@@ -274,6 +258,14 @@ public class Driver
             index++;
         }
         System.out.println("Customer " + current.toString() + " was seated at a table " + table.getNumber());
+    }
+    
+    public static Customer leaves(ListArrayBasedPlus noKids, ListArrayBasedPlus kids) throws IOException
+    {
+    	System.out.print("Please enter the name of the Customer Party: ");
+    	String custName = buff.readLine().trim();
+    	System.out.println(custName);
+		return null;
     }
 
     /**
