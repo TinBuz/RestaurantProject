@@ -114,6 +114,6 @@ public class Table
 	 */
 	public String toString()
 	{
-		return("Table Number: " + tableNumber + " has " + numSeats + " seats.");
+		return("Table " + tableNumber + " with " + numSeats + " seats.");
 	}
 }
