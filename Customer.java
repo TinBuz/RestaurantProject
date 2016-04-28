@@ -1,4 +1,3 @@
-package mainPackage;
 
 /**
  * Purpose: DSA Final
@@ -39,10 +38,10 @@ public class Customer
         switch(kids)
         {
             case 'Y':
-            this.hasKids = true;
+            this.hasKids = false;
             break;
             case 'N':
-            this.hasKids = false;
+            this.hasKids = true;
             break;
         }
     }
@@ -114,4 +113,3 @@ public class Customer
         return name + "'s party of " + getSize() + " waiting to be seated in the  " + kids + " section";
     }
 }
-
